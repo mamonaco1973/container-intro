@@ -1,133 +1,180 @@
-# Serverless HTTP Endpoints - AWS Lambdas, Azure Functions and GCP Cloud Functions
+# Containerizing Microservices Across AWS, Azure, and GCP
 
-This video series complements the [Scaling in the Cloud](https://github.com/mamonaco1973/cloud-scaling-intro/blob/main/README.md) series. In that series, we deployed a simple microservice using Python and the Flask framework.
+**This video series complements the [Scaling in the Cloud](https://github.com/mamonaco1973/cloud-scaling-intro/blob/main/README.md) series**, where we deployed a simple Python-based microservice using the Flask framework across different cloud platforms.
 
-In this series, we will deploy Python-based serverless functions in **AWS**, **Azure**, and **GCP**. These are referred to as *Flask-like* or *flasky* throughout the project documentation. The goal is to deploy an identical API from the Cloud Scaling series using the native serverless features of each cloud provider.
+In this new series, we'll take that same microservice and containerize it using **Docker**. You'll learn how to:
 
-By the end of this series, you will learn how to deploy simple Python-based HTTP endpoints as serverless functions across all three major cloud platforms using Terraform.
-
-We will walk through the following tasks:
-
-1. **Deploy Python Code** for microservices using serverless technologies:
-   - **Lambdas** for AWS
-   - **Azure Functions** for Azure
-   - **Cloud Functions** for GCP
-
-2. **Use a document database** for microservice data storage:
+- **Use a document database** for microservice data storage:
    - **DynamoDB** for AWS
    - **CosmosDB** for Azure
    - **Firestore** for GCP
+- **Build a Docker container** for the microservice, optimizing it for cloud deployments.
+- **Push the container image** to the appropriate container registry for each cloud provider:
+  - **Amazon ECR (Elastic Container Registry)** for **AWS**  
+  - **Azure Container Registry (ACR)** for **Azure**  
+  - **Google Container Registry (GCR)** for **GCP**  
+- **Deploy the container** using the simplest container runtime services offered by each cloud provider:
+  - **AWS App Runner** for fully managed container deployments on AWS  
+  - **Azure Container Apps** for serverless container hosting on Azure  
+  - **Google Cloud Run** for scalable, stateless container execution on GCP  
 
-3. **Configure HTTP endpoints** to invoke the serverless code:
-   - **API Gateway** for AWS
-   - **Function App** for Azure
-   - **Cloud Run** for GCP
+## What You'll Learn
 
-4. **Secure the HTTP endpoints**:
-   - **IAM Integration** for AWS
-   - **Function Keys** for Azure
-   - **JWT Token** for GCP
+By the end of this series, you’ll have hands-on experience with:  
+- Building Docker containers from scratch  
+- Pushing container images to cloud registries  
+- Deploying containerized applications with minimal configuration  
+- Understanding the key differences between App Runner, Container Apps, and Cloud Run  
 
-5. **Clean up resources** by destroying all infrastructure created during the process.
+This series is designed to help you get comfortable with simple container deployment workflows in **AWS**, **Azure**, and **GCP** before moving on to the complexities of `Kubernetes`.
 
 ## Quick Links
 
-1. [Introduction Video](https://youtu.be/NPhu0byKj_A)
+1. [Introduction Video](TBD)
 2. AWS Solution
-   - [AWS Lambda HTTP Endpoints](https://youtu.be/Psf56Fvn62E)
-   - [GitHub Project](https://github.com/mamonaco1973/aws-flasky-lambdas)
+   - [Simple AWS Containers](TBD)
+   - [GitHub Project](https://github.com/mamonaco1973/aws-flask-container/)
 3. Azure Solution
-   - [Azure HTTP Function App](https://youtu.be/aIi8dtXs4qk)
-   - [GitHub Project](https://github.com/mamonaco1973/azure-flasky-function-app)
+   - [Simple Azure Containers](TBD)
+   - [GitHub Project](https://github.com/mamonaco1973/azure-flask-container/)
 4. GCP Solution
-   - [GCP HTTP Cloud Functions](https://youtu.be/vVeci5df3Wc)
-   - [GitHub Project](https://github.com/mamonaco1973/gcp-flasky-cloud-functions)
+   - [Simple GCP Containers](TBD)
+   - [GitHub Project](https://github.com/mamonaco1973/gcp-flask-container/)
 
-## Introduction to Serverless Computing for HTTP Endpoints
+## Comparing Container Registry Solutions
 
-Serverless computing is a cloud-computing execution model where the cloud provider dynamically manages the infrastructure, including server provisioning, scaling, and maintenance. This approach allows developers to focus entirely on writing and deploying code, without the need to manage or maintain underlying servers. A key use case for serverless computing is building and managing **HTTP endpoints**, making it a powerful solution for web applications, APIs, and microservices. Key characteristics of serverless computing include:
+When deploying containerized applications to the cloud, storing and managing your container images securely and efficiently is critical. Each major cloud provider offers its own **Container Registry** solution, with some key differences and similarities:
 
-- **No Server Management**: Developers don't need to manage or provision servers; the cloud provider handles it all, allowing more focus on application logic.
-- **Automatic Scaling**: Serverless applications, including HTTP endpoints, automatically scale up or down based on demand, ensuring consistent performance regardless of traffic volume.
-- **Pay-As-You-Go**: Costs are based on actual usage (e.g., number of requests or function execution time), providing cost-efficiency for workloads with varying traffic patterns.
+### **Amazon Elastic Container Registry (ECR)**
+- **Integration:** Deeply integrated with AWS services like ECS, EKS, and App Runner.
+- **Authentication:** Uses AWS IAM for secure access control.
+- **Performance:** Optimized for use within AWS, offering fast image pulls in the same region.
+- **Features:**
+  - Supports private and public repositories.
+  - Image vulnerability scanning with Amazon Inspector.
+  - Lifecycle policies to manage image retention.
+- **Pricing:** Based on data storage and image transfer (free transfers within the same region).
 
-While serverless computing is commonly associated with **Functions-as-a-Service (FaaS)** platforms like AWS Lambda, Azure Functions, or Google Cloud Functions, it also integrates seamlessly with other services, such as API gateways for routing HTTP requests, managed databases for storage, and message queues for asynchronous processing. This makes serverless a versatile choice for building scalable and cost-effective HTTP-based solutions.
+### **Azure Container Registry (ACR)**
+- **Integration:** Works seamlessly with Azure services like AKS, Azure Container Apps, and Azure Functions.
+- **Authentication:** Supports Azure Active Directory (AAD) for role-based access control.
+- **Performance:** Offers geo-replication to sync registries across regions for faster access.
+- **Features:**
+  - Build and task automation directly within ACR.
+  - Content Trust for image signing and verification.
+  - Support for Helm charts and OCI artifacts.
+- **Pricing:** Based on service tier (Basic, Standard, Premium) and storage/transfer usage.
 
-### **AWS**
-1. **AWS Lambda**:
-   - Runs code in response to HTTP requests.
-   - Integrates directly with API Gateway for seamless endpoint creation.
-
-2. **Amazon API Gateway**:
-   - Fully managed service for creating and managing HTTP endpoints.
-   - Routes incoming HTTP requests to AWS Lambda functions.
-   - Supports REST APIs, HTTP APIs, and WebSocket APIs.
-
-![AWS diagram](aws-flasky-lambdas.png)
-
-### **Azure**
-1. **Azure Functions (Function Apps)**:
-   - Azure's primary FaaS platform for executing code in response to HTTP requests.
-   - Deployed as part of **Function Apps**, which group multiple functions together.
-   - Supports automatic scaling and event-driven execution.
-   - Built-in support for HTTP triggers, allowing each function to serve as an HTTP endpoint.
-   - Secure endpoints with authentication, authorization, and HTTPS.
-
-![Azure diagram](azure-flasky-function-app.png)
-
-### **Google Cloud Platform (GCP)**
-1. **Cloud Functions**:
-   - Serverless FaaS platform with built-in HTTP trigger support.
-   - Each function can serve as an HTTP endpoint.
-
-2. **API Gateway**:
-   - Not used in this project because Cloud Functions gives us everything we need for our simple HTTP endpoints
-   - Adds features like better routing, authentication, rate limiting, and logging.
-
-![GCP diagram](gcp-flasky-cloud-functions.png)
-
-### Supported Serverless Languages
-
-| Cloud Provider | Out-of-the-Box Languages                                     | Custom Runtimes                     |
-|----------------|-------------------------------------------------------------|-------------------------------------|
-| AWS Lambda     | Node.js, Python, Java, .NET (C#), Ruby, Go, PowerShell      | Any language via Runtime API        |
-| Azure Functions| .NET (C#, F#), Python, Java, JavaScript, TypeScript, PowerShell | Any language via custom handlers    |
-| GCP Functions  | Node.js, Python, Go, Java, .NET, Ruby, PHP                  | Any language via Cloud Run          |
-
-## Securing Serverless APIs: Lightweight Methods
-
-When deploying serverless HTTP endpoints, securing them is essential to protect sensitive data, prevent unauthorized access, and ensure only trusted clients or systems interact with your APIs. Cloud providers like AWS, Azure, and GCP offer native security methods for simple (lightweight) use cases:
-
-### **AWS (Lambda with API Gateway)**
-- **IAM Authentication:**
-   - API Gateway supports IAM roles and policies for access control.
-   - Clients authenticate requests using AWS SigV4 signing.
-   - Ideal for internal applications or when clients use AWS SDKs.
+### **Google Artifact Registry (GAR)**
+- **Integration:** Natively integrated with Google Cloud services like GKE, Cloud Run, and Cloud Build.
+- **Authentication:** Uses Google Cloud IAM for fine-grained access control.
+- **Performance:** Global availability with multi-region storage options for faster image pulls.
+- **Features:**
+  - Native support for Docker and OCI-compliant images.
+  - Vulnerability scanning via Google Artifact Analysis.
+  - Flexible repository configurations for regional, multi-regional, and hybrid cloud deployments.
+- **Pricing:** Based on storage and network egress; free within the same region.
 
 ---
 
-### **Azure (Functions with HTTP Triggers)**
-- **Function Keys:**
-   - Access is managed using function keys (auto-generated or custom).
-   - Keys are passed in the query string (`?code=...`) or headers for authentication.
-   - Suitable for lightweight security but not intended for advanced access control.
+### **Key Differences at a Glance**
+
+| **Feature**               | **AWS ECR**                  | **Azure ACR**                    | **Google Artifact Registry (GAR)**   |
+|---------------------------|------------------------------|----------------------------------|--------------------------------------|
+| **Auth Mechanism**        | IAM Roles & Policies         | Azure AD (RBAC)                  | Google IAM                           |
+| **Vulnerability Scanning**| Yes (Amazon Inspector)       | Yes (Built-in)                   | Yes (Artifact Analysis)              |
+| **Geo-Replication**       | No                           | Yes (Premium Tier)               | Multi-region support                 |
+| **Build Automation**      | Limited                      | Integrated Build Tasks           | Cloud Build Integration              |
+| **Pricing Model**         | Storage & Transfer           | Tier-based + Usage               | Storage & Egress                     |
 
 ---
 
-### **GCP (Cloud Functions)**
-- **Google Auth Token:**
-   - Protect endpoints using a signed JWT (JSON Web Token).
-   - Tokens can be retrieved via `gcloud auth` or by using a service account.
-   - Ensures access is limited to authorized users or services within GCP.
+## Comparing Simplified Container Runtimes
 
+Modern cloud platforms offer **simplified container runtimes** that abstract away much of the complexity involved in container orchestration. Let’s compare **AWS App Runner**, **Azure Container Apps**, and **Google Cloud Run** to understand their strengths and trade-offs.
 
-By leveraging these provider-specific methods, you can implement security measures that align with your application's requirements and ensure a secure serverless environment.
+### **AWS App Runner**
+- **Use Case:** Best for deploying web applications and APIs without managing infrastructure.
+- **Deployment:** Direct from ECR or GitHub repositories.
+- **Scaling:** Auto-scales based on incoming requests; supports both manual and automatic scaling.
+- **Networking:** Supports private connectivity with VPC integration.
+- **Features:**
+  - SSL/TLS enabled by default.
+  - Built-in load balancing and health checks.
+  - IAM roles for secure resource access.
 
-## *Flasky* Endpoint Summary
+**Pros:**
+- Extremely easy to set up with minimal configuration.
+- Strong AWS ecosystem integration.
 
-- [AWS Source Code](https://github.com/mamonaco1973/aws-flasky-lambdas/tree/main/01-lambdas/code)
-- [Azure Source Code](https://github.com/mamonaco1973/azure-flasky-function-app/blob/main/02-flasky/function_app.py)
-- [GCP Source Code](https://github.com/mamonaco1973/gcp-flasky-cloud-functions/blob/main/01-cloudfunctions/code/main.py)
+**Cons:**
+- Limited flexibility for complex networking scenarios.
+- Slightly higher cost compared to Fargate for large workloads.
+
+![AWS diagram](aws-flask-container.png)
+
+---
+
+### **Azure Container Apps**
+- **Use Case:** Ideal for microservices, event-driven applications, and background processing.
+- **Deployment:** Supports containers from ACR, Docker Hub, or any OCI-compliant registry.
+- **Scaling:** Powered by **KEDA**, allowing scaling based on events (HTTP, queue messages, etc.).
+- **Networking:** Supports both public and private endpoints with VNET integration.
+- **Features:**
+  - Built-in Dapr support for microservice development.
+  - Ingress traffic splitting for A/B testing.
+  - Managed secrets for environment variables.
+
+**Pros:**
+- Event-driven scaling capabilities are powerful.
+- Great for microservices with complex scaling needs.
+
+**Cons:**
+- Learning curve for KEDA-based scaling triggers.
+- Performance overhead for very lightweight applications compared to Azure Functions.
+
+![Azure diagram](azure-flask-container.png)
+
+---
+
+### **Google Cloud Run**
+- **Use Case:** Best for stateless HTTP containers and APIs, designed for rapid scaling.
+- **Deployment:** Supports deploying from Artifact Registry or local Docker builds.
+- **Scaling:** Scales to zero when idle and up to thousands of instances instantly during peak demand.
+- **Networking:** Supports both public and private services (VPC connectors available).
+- **Features:**
+  - Integrated with Cloud Build and Cloud Scheduler.
+  - Granular IAM controls for service-level access.
+  - Request-based billing (pay only for the actual usage).
+
+**Pros:**
+- Blazing fast scaling with per-request billing.
+- Simplified deployment workflow with CI/CD tools.
+
+**Cons:**
+- Cold start latency can affect real-time applications.
+- Limited control over the underlying infrastructure.
+
+![GCP diagram](gcp-flask-container.png)
+---
+
+### **Key Differences at a Glance**
+
+| **Feature**               | **AWS App Runner**               | **Azure Container Apps**              | **Google Cloud Run**                  |
+|---------------------------|----------------------------------|---------------------------------------|--------------------------------------|
+| **Scaling Mechanism**     | Request-based auto-scaling       | Event-driven (KEDA) + HTTP scaling    | Request-based, scales to zero        |
+| **VPC Integration**       | Yes (VPC support)                | Yes (VNET support)                    | Yes (VPC connectors)                 |
+| **Deployment Sources**    | ECR, GitHub                      | ACR, Docker Hub, Custom Registries    | Artifact Registry, Local Builds      |
+| **Pricing Model**         | Per-container-hour + data transfer | Per-container-hour + executions      | Request-based (per 100ms) + invocations |
+| **Cold Start Latency**    | Low                              | Moderate (depends on scaling triggers) | Possible (can be mitigated with min instances) |
+
+---
+
+## Service Endpoint Summary
+
+- [AWS Source Code](https://github.com/mamonaco1973/aws-flask-container/blob/main/02-docker/app.py)
+- [Azure Source Code](https://github.com/mamonaco1973/azure-flask-container/blob/main/02-docker/app.py)
+- [GCP Source Code](https://github.com/mamonaco1973/gcp-flask-container/blob/main/02-docker/app.py)
 
 ### `/gtg` (GET)
 - **Purpose**: Health check.
