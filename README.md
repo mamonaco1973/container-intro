@@ -12,7 +12,7 @@ In this new series, we'll take that same microservice and containerize it using 
 - **Push the container image** to the appropriate container registry for each cloud provider:
   - **Amazon ECR (Elastic Container Registry)** for **AWS**  
   - **Azure Container Registry (ACR)** for **Azure**  
-  - **Google Container Registry (GCR)** for **GCP**  
+  - **Google Artifact Registry (GAR)** for **GCP**  
 - **Deploy the container** using the simplest container runtime services offered by each cloud provider:
   - **AWS App Runner** for fully managed container deployments on AWS  
   - **Azure Container Apps** for serverless container hosting on Azure  
