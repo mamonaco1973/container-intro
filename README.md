@@ -28,6 +28,9 @@ By the end of this series, you’ll have hands-on experience with:
 
 This series is designed to help you get comfortable with simple container deployment workflows in **AWS**, **Azure**, and **GCP** before moving on to the complexities of `Kubernetes`.
 
+`This series will also have a follow-up series which will walk you through setting up GitHub Actions for these projects.`
+
+![actions](actions.png)
 ## Quick Links
 
 1. [Introduction Video](TBD)
