@@ -33,15 +33,15 @@ This series is designed to help you get comfortable with simple container deploy
 ![actions](actions.png)
 ## Quick Links
 
-1. [Introduction Video](TBD)
+1. [Simple Cloud Containers: Docker Containers in AWS, Azure, and GCP](https://youtu.be/2BQB-OMAhH8)
 2. AWS Solution
-   - [Simple AWS Containers](TBD)
+   - [Simple AWS Containers](https://youtu.be/hhtDigvwMwk)
    - [GitHub Project](https://github.com/mamonaco1973/aws-flask-container/)
 3. Azure Solution
-   - [Simple Azure Containers](TBD)
+   - [Simple Azure Containers](https://youtu.be/eogMQjbBvTo)
    - [GitHub Project](https://github.com/mamonaco1973/azure-flask-container/)
 4. GCP Solution
-   - [Simple GCP Containers](TBD)
+   - [Simple GCP Containers](https://youtu.be/9q0hXgSssPI)
    - [GitHub Project](https://github.com/mamonaco1973/gcp-flask-container/)
 
 ## Comparing Container Registry Solutions
