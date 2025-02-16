@@ -101,7 +101,7 @@ Below, we’ll walk through the steps required to configure GitHub Actions for y
 ## Quick Links
 
 1. [Simple Cloud Containers: Docker Containers in AWS, Azure, and GCP](https://youtu.be/2BQB-OMAhH8)
-2. [Cloud GitHub Actions](TBD)
+2. [GitHub Actions](https://youtu.be/Ngsz9pfgBUo)
 3. AWS Solution
    - [Simple AWS Containers](https://youtu.be/hhtDigvwMwk)
    - [AWS GitHub Actions](TBD)
