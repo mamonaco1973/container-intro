@@ -28,7 +28,7 @@ By the end of this series, you’ll have hands-on experience with:
 
 This series is designed to help you get comfortable with simple container deployment workflows in **AWS**, **Azure**, and **GCP** before moving on to the complexities of `Kubernetes`.
 
-`This series will also have a follow-up series which will walk you through setting up GitHub Actions for these projects.`
+There is a followup series to this series called [Configuring GitHub Actions in AWS, Azure and GCP](./.github/workflows/README.md). In that series we build these projects within the GitHub ecosystem using GitHub Actions.
 
 ![actions](actions.png)
 ## Quick Links
